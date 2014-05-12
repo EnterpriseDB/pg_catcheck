@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="all">
+<!--
+  Project level settings.
+  Can be overridden on the commandline by things like:
+  msbuild /p:PGPATH=C:\postgresql_source_code_directory
+-->
+
+    <PropertyGroup>
+
+	<!-- Debug build? -->
+        <DEBUG>0</DEBUG>
+
+        <!-- PostgreSQL source code directory -->
+        <PGPATH>C:\postgresql-9.4.0</PGPATH>
+
+    </PropertyGroup>
+</Project>

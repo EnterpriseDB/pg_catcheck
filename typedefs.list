@@ -1,0 +1,12 @@
+attnum_cache
+check_depend_cache
+class_id_mapping_type
+depend_column_style
+exception_list
+pg_catalog_column
+pg_catalog_table
+PGconn
+PGresult
+pgrhash
+pgrhash_entry
+relnatts_cache

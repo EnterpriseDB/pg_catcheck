@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="pg_catcheck">
+
+    <Import Project="settings.projinc" />
+
+    <!-- Setup for Debug or Release -->
+    <Choose>
+        <When Condition="'$(DEBUG)'=='1'">
+            <PropertyGroup>
+                <XTRA_CFLAGS>/Od /MDd /Zi /D "DEBUG=1" /D "_DEBUG"</XTRA_CFLAGS>
+				<BUILD_SUBDIR>Debug</BUILD_SUBDIR>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <XTRA_CFLAGS>/Ox /MD /GF </XTRA_CFLAGS>
+				<BUILD_SUBDIR>Release</BUILD_SUBDIR>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
+
+    <!-- Architecture-specific compiler flags -->
+    <Choose>
+        <When Condition="'$(ARCH)'=='x64'">
+            <PropertyGroup>
+                <XTRA_ARCH_CFLAGS></XTRA_ARCH_CFLAGS>
+                <XTRA_ARCH_LDFLAGS>/MACHINE:X64</XTRA_ARCH_LDFLAGS>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <XTRA_ARCH_CFLAGS>/D "_USE_32BIT_TIME_T"</XTRA_ARCH_CFLAGS>
+                <XTRA_ARCH_LDFLAGS></XTRA_ARCH_LDFLAGS>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
+
+    <PropertyGroup>
+        <!-- Compiler flags -->
+        <CFLAGS>/nologo /wd4273 /TC /LD $(XTRA_CFLAGS) /GS /fp:precise /Zc:wchar_t /D "WIN32" /D "__WIN32__" $(XTRA_ARCH_CFLAGS) /D "_CRT_SECURE_NO_DEPRECATE" /D "_CRT_NONSTDC_NO_DEPRECATE" /D "_MBCS"</CFLAGS>
+
+        <!-- Linker flags -->
+        <LDFLAGS>$(XTRA_ARCH_LDFLAGS) /DEBUG /PDB:"pg_catcheck.pdb" /defaultlib:user32 /defaultlib:netapi32 /defaultlib:advapi32 /defaultlib:shell32 /defaultlib:ws2_32 /defaultlib:Secur32.lib /defaultlib:$(PGPATH)\$(BUILD_SUBDIR)\libpq\libpq.lib /defaultlib:$(PGPATH)\$(BUILD_SUBDIR)\libpgport\libpgport.lib /defaultlib:$(PGPATH)\$(BUILD_SUBDIR)\libpgcommon\libpgcommon.lib"</LDFLAGS>
+
+		<!-- Executable name -->
+		<EXE_NAME>pg_catcheck.exe</EXE_NAME>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <IncludeDirs Include="/I$(PGPATH)\src\include" />
+        <IncludeDirs Include="/I$(PGPATH)\src\include\port\win32" />
+        <IncludeDirs Include="/I$(PGPATH)\src\include\port\win32_msvc" />
+        <IncludeDirs Include="/I$(PGPATH)\src\interfaces\libpq" />
+    </ItemGroup>
+
+    <!-- source files -->
+    <ItemGroup>
+		<SrcFiles Include="check_attribute.c" />
+		<SrcFiles Include="check_class.c" />
+		<SrcFiles Include="check_depend.c" />
+		<SrcFiles Include="check_oids.c" />
+		<SrcFiles Include="definitions.c" />
+		<SrcFiles Include="log.c" />
+		<SrcFiles Include="pg_catcheck.c" />
+		<SrcFiles Include="pgrhash.c" />
+	</ItemGroup>
+
+    <!-- files to delete -->
+    <ItemGroup>
+		<File2Delete Include="$(EXE_NAME)" />
+		<File2Delete Include="@(SrcFiles -> '%(Filename).obj')" />
+		<File2Delete Include="*.pdb" />
+		<File2Delete Include="pg_catcheck.ilk" />
+	</ItemGroup>
+
+    <Target Name="pg_catcheck"
+            Inputs="@(SrcFiles)"
+            Outputs="pg_catcheck.exe">
+        <Message Text="Building pg_catcheck" />
+
+	<!-- Compile the source files. -->
+        <Exec Command="cl $(CFLAGS) /c @(IncludeDirs, ' ') @(SrcFiles, ' ')" />
+
+	<!-- Link all the object files to pg_catcheck.exe -->
+        <Exec Command="link /OUT:$(EXE_NAME) @(SrcFiles -> '%(Filename).obj', ' ') $(LDFLAGS) " />
+    </Target>
+
+	<!-- Remove generated files -->
+    <Target Name="clean">
+        <Delete Files="@(File2Delete)" />
+    </Target>
+</Project>
