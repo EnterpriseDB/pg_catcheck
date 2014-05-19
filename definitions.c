@@ -573,7 +573,7 @@ struct pg_catalog_column pg_db_role_setting_column[] =
 {
 	/* pg_db_role_setting */
 	{"setdatabase", NULL, 90000, 0, false, true, true, &check_database_optional_oid},
-	{"setrole", NULL, 90000, 0, false, false, false, &check_authid_optional_oid},
+	{"setrole", NULL, 90000, 0, false, true, true, &check_authid_optional_oid},
 	{NULL}
 };
 
