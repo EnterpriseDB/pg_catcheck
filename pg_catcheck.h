@@ -11,6 +11,7 @@
 #define PGCATCHECK_H
 
 #include "libpq-fe.h"			/* for PGresult */
+#include "compat.h"
 
 /* Forward declarations. */
 struct pgrhash;

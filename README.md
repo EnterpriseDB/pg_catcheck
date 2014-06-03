@@ -103,8 +103,12 @@ support pg_catcheck.
 What versions of PostgreSQL does pg_catcheck support?
 =====================================================
 
-pg_catcheck supports PostgreSQL 8.4 and higher.  It also supports
-EnterpriseDB's Advanced Server product, versions 8.4 and higher.
+pg_catcheck should work when run against a server running PostgreSQL 8.4
+or higher.  It also should also work when run against a server running
+EnterpriseDB's Advanced Server product, version 8.4 or higher.  To
+compile pg_catcheck, you will need to build against a server source tree
+version 9.0 or higher, because it relies on the function PQconnectdbParams(),
+which did not exist in 8.4.
 
 Building on UNIX/Linux
 ======================

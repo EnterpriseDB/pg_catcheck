@@ -2,8 +2,8 @@ PGFILEDESC = "pg_catcheck - system catalog integrity checker"
 PGAPPICON = win32
 
 PROGRAM = pg_catcheck
-OBJS	= pgrhash.o pg_catcheck.o check_attribute.o check_class.o \
-			check_depend.o check_oids.o definitions.o log.o
+OBJS	= pg_catcheck.o check_attribute.o check_class.o check_depend.o \
+			check_oids.o compat.o definitions.o log.o pgrhash.o
 
 PG_CPPFLAGS = -I$(libpq_srcdir)
 PG_LIBS = $(libpq_pgport) $(PTHREAD_LIBS)
