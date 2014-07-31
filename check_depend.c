@@ -688,6 +688,7 @@ build_depend_cache(pg_catalog_table *tab, pg_catalog_column *tabcol)
 		cache->is_broken = true;
 
 	/* We're done. */
+	tabcol->check_private = cache;
 	return cache;
 }
 
