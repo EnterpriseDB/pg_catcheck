@@ -708,7 +708,7 @@ not_for_this_database(check_depend_cache *cache, pg_catalog_table *tab,
 		return false;
 
 	/* Look up the value in that column. */
-	dbval = PQgetvalue(tab->data, rownum, tabcol->result_column);
+	dbval = PQgetvalue(tab->data, rownum, cache->database_result_column);
 
 	/* 0 means it's a global object, so it's fine to check it here. */
 	if (strcmp(dbval, "0") == 0)
