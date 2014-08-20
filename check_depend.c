@@ -44,6 +44,7 @@ typedef struct check_depend_cache
 	int			class_result_column;
 	int			object_result_column;
 	int			deptype_result_column;
+	pgrhash	   *duplicate_owner_ht;
 } check_depend_cache;
 
 typedef struct class_id_mapping_type
@@ -332,6 +333,19 @@ check_dependency_id(pg_catalog_table *tab, pg_catalog_column *tabcol,
 	if (not_for_this_database(cache, tab, tabcol, rownum))
 		return;
 
+	/*
+	 * Check for multiple owner dependencies for the same object.
+	 *
+	 * FIXME: Current pg_catcheck design don't support table-level checks,
+	 * all checks are column-level. We might want to re-architect this at
+	 * some point in the future.  For now, we check this here.
+	 */
+	if (cache->duplicate_owner_ht != NULL &&
+		strcmp(PQgetvalue(tab->data, rownum,
+						  PQfnumber(tab->data, "deptype")), "o") == 0 &&
+		pgrhash_insert(cache->duplicate_owner_ht, rownum) != -1)
+		pgcc_report(tab, NULL, rownum, "duplicate owner dependency\n");
+
 	/* Fetch the class ID and object ID. */
 	classval = PQgetvalue(tab->data, rownum, cache->class_result_column);
 	val = PQgetvalue(tab->data, rownum, tabcol->result_column);
@@ -617,7 +631,7 @@ build_depend_cache(pg_catalog_table *tab, pg_catalog_column *tabcol)
 		return tabcol->check_private;
 
 	/* Create and initialize the cache object. */
-	cache = pg_malloc(sizeof(check_depend_cache));
+	cache = pg_malloc0(sizeof(check_depend_cache));
 	cache->style = get_style(tab->table_name, tabcol->name);
 	cache->is_broken = false;
 	switch (cache->style)
@@ -686,6 +700,20 @@ build_depend_cache(pg_catalog_table *tab, pg_catalog_column *tabcol)
 	 */
 	if (class_id_mapping == NULL)
 		cache->is_broken = true;
+
+	/*
+	 * If needed, create hash table for duplicate-owner-dependency cheecking.
+	 */
+	if (!cache->is_broken && cache->database_result_column != -1 &&
+		cache->deptype_result_column != -1)
+	{
+		int					keycols[4];
+
+		keycols[0] = cache->database_result_column;
+		keycols[1] = cache->class_result_column;
+		keycols[2] = cache->object_result_column;
+		cache->duplicate_owner_ht = pgrhash_create(tab->data, 4, keycols);
+	}
 
 	/* We're done. */
 	tabcol->check_private = cache;
