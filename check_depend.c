@@ -707,12 +707,12 @@ build_depend_cache(pg_catalog_table *tab, pg_catalog_column *tabcol)
 	if (!cache->is_broken && cache->database_result_column != -1 &&
 		cache->deptype_result_column != -1)
 	{
-		int					keycols[4];
+		int					keycols[3];
 
 		keycols[0] = cache->database_result_column;
 		keycols[1] = cache->class_result_column;
 		keycols[2] = cache->object_result_column;
-		cache->duplicate_owner_ht = pgrhash_create(tab->data, 4, keycols);
+		cache->duplicate_owner_ht = pgrhash_create(tab->data, 3, keycols);
 	}
 
 	/* We're done. */
