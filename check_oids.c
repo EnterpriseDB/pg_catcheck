@@ -175,7 +175,9 @@ check_oid_reference(pg_catalog_table *tab, pg_catalog_column *tabcol,
 					buf[s - val] = '\0';
 
 					/* Check it. */
-					do_oid_check(tab, tabcol, rownum, check_oid, reftab, buf);
+					if (!check_oid->zero_oid_ok || strcmp(buf, "0") != 0)
+						do_oid_check(tab, tabcol, rownum, check_oid, reftab,
+									 buf);
 
 					/* Expect end of string if at '}'. */
 					if (*s == '}')
