@@ -166,7 +166,7 @@ main(int argc, char **argv)
 	}
 
 	if (argc > optind)
-		dbName = argv[optind];
+		dbName = argv[optind++];
 	else
 	{
 		if ((env = getenv("PGDATABASE")) != NULL && *env != '\0')
@@ -175,6 +175,15 @@ main(int argc, char **argv)
 			dbName = login;
 		else
 			dbName = "";
+	}
+
+	/* Complain if any arguments remain */
+	if (optind < argc)
+	{
+		fprintf(stderr, _("%s: too many command-line arguments (first is \"%s\")\n"),
+				progname, argv[optind]);
+		fprintf(stderr, _("Try \"%s --help\" for more information.\n"), progname);
+		exit(1);
 	}
 
 	/* opening connection... */
