@@ -708,12 +708,12 @@ struct pg_catalog_column pg_auth_members_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_rowsecurity_column[] =
+struct pg_catalog_column pg_policy_column[] =
 {
 	{"oid", NULL, 90500, 0, false, true, true},
-	{"rsecpolname", NULL, 90500, 0, false, false, false},
-	{"rsecrelid", NULL, 90500, 0, false, false, false, &check_class_oid},
-	{"rsecroles", NULL, 90500, 0, false, false, false,
+	{"polname", NULL, 90500, 0, false, false, false},
+	{"polrelid", NULL, 90500, 0, false, false, false, &check_class_oid},
+	{"polroles", NULL, 90500, 0, false, false, false,
 		&check_authid_oid_array_zero_ok},
 	{NULL}
 };
@@ -776,6 +776,6 @@ struct pg_catalog_table pg_catalog_tables[] =
 	{"pg_seclabel", pg_seclabel_column},
 	{"pg_shseclabel", pg_shseclabel_column},
 	{"pg_auth_members", pg_auth_members_column},
-	{"pg_rowsecurity", pg_rowsecurity_column},
+	{"pg_policy", pg_policy_column},
 	{NULL}
 };
