@@ -95,6 +95,8 @@ struct pg_catalog_check_oid check_proc_oid =
 {CHECK_OID_REFERENCE, false, "pg_proc"};
 struct pg_catalog_check_oid check_proc_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_proc"};
+struct pg_catalog_check_oid check_profile_oid =
+{CHECK_OID_REFERENCE, true, "edb_profile"};
 struct pg_catalog_check_oid check_relnatts_value =
 {CHECK_RELNATTS};
 struct pg_catalog_check_oid check_tablespace_oid =
@@ -151,7 +153,8 @@ struct pg_catalog_column pg_authid_column[] =
 {
 	/* pg_authid */
 	{"oid", NULL, 0, 0, false, true, true},
-	{"rolname", NULL, 0, 0, false, false, false},
+	{"rolname", NULL, 0, 0, false, false, true},
+	{"rolprofile", NULL, 90500, 0, true, false, false, &check_profile_oid},
 	{NULL}
 };
 
@@ -718,6 +721,13 @@ struct pg_catalog_column pg_policy_column[] =
 	{NULL}
 };
 
+struct pg_catalog_column edb_profile_column [] =
+{
+	{"oid", NULL, 90500, 0, true, true, true},
+	{"prfname", NULL, 90500, 0, true, false, true},
+	{NULL}
+};
+
 struct pg_catalog_table pg_catalog_tables[] =
 {
 	{"pg_class", pg_class_column},
@@ -777,5 +787,6 @@ struct pg_catalog_table pg_catalog_tables[] =
 	{"pg_shseclabel", pg_shseclabel_column},
 	{"pg_auth_members", pg_auth_members_column},
 	{"pg_policy", pg_policy_column},
+	{"edb_profile", edb_profile_column},
 	{NULL}
 };
