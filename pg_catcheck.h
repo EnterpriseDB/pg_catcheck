@@ -159,6 +159,7 @@ typedef enum pgcc_severity
 extern bool quiet;
 extern int	verbose;
 
+#if PG_VERSION_NUM < 90500
 extern void
 pgcc_log(pgcc_severity sev, char *fmt,...)
 __attribute__((format(PG_PRINTF_ATTRIBUTE, 2, 3)));
@@ -166,6 +167,15 @@ extern void
 pgcc_report(pg_catalog_table *tab, pg_catalog_column *tabcol,
 			int rownum, char *fmt,...)
 __attribute__((format(PG_PRINTF_ATTRIBUTE, 4, 5)));
+#else
+extern void
+pgcc_log(pgcc_severity sev, char *fmt,...)
+pg_attribute_printf(2, 3);
+extern void
+pgcc_report(pg_catalog_table *tab, pg_catalog_column *tabcol,
+			int rownum, char *fmt,...)
+pg_attribute_printf(4, 5);
+#endif
 extern void pgcc_log_completion(void);
 
 /* pgrhash.c */
