@@ -408,6 +408,8 @@ check_dependency_subid(pg_catalog_table *tab, pg_catalog_column *tabcol,
 	cache = build_depend_cache(tab, tabcol);
 	if (cache->is_broken)
 		return;
+	if (not_for_this_database(cache, tab, tabcol, rownum))
+		return;
 
 	/*
 	 * We find pg_attribute on our first trip through this function and avoid
