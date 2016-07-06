@@ -530,7 +530,7 @@ decide_what_to_check(bool selected_columns)
 					 remote_version < tabcol->minimum_version)
 				tabcol->available = false;		/* DB version too old */
 			else if (tabcol->maximum_version &&
-					 remote_version < tabcol->maximum_version)
+					 remote_version > tabcol->maximum_version)
 				tabcol->available = false;		/* DB version too new */
 			else
 				tabcol->available = true;
