@@ -186,7 +186,7 @@ struct pg_catalog_column pg_am_column[] =
 {
 	/* pg_am */
 	{"oid", NULL, 0, 0, false, true, true},
-	{"amkeytype", NULL, 0, 0, false, false, false, &check_type_optional_oid},
+	{"amkeytype", NULL, 0, 90599, false, false, false, &check_type_optional_oid},
 	{NULL}
 };
 
