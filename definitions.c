@@ -728,6 +728,24 @@ struct pg_catalog_column edb_profile_column [] =
 	{NULL}
 };
 
+struct pg_catalog_column edb_queue_table_column[] =
+{
+	{"oid", NULL, 90600, 0, true, true, true},
+	{"qtname", NULL, 90600, 0, true, false, true},
+	{"qtnamespace", NULL, 90600, 0, true, false, false, &check_namespace_oid},
+	{"qtrelid", NULL, 90600, 0, true, false, false, &check_class_oid},
+	{"qpayloadtype", NULL, 90600, 0, true, false, false, &check_type_oid},
+	{NULL}
+};
+
+struct pg_catalog_column edb_queue_column [] =
+{
+	{"oid", NULL, 90600, 0, true, true, true},
+	{"aqname", NULL, 90600, 0, true, false, true},
+	{"aqrelid", NULL, 90600, 0, true, false, false, &check_class_oid},
+	{NULL}
+};
+
 struct pg_catalog_table pg_catalog_tables[] =
 {
 	{"pg_class", pg_class_column},
@@ -788,5 +806,7 @@ struct pg_catalog_table pg_catalog_tables[] =
 	{"pg_auth_members", pg_auth_members_column},
 	{"pg_policy", pg_policy_column},
 	{"edb_profile", edb_profile_column},
+	{"edb_queue_table", edb_queue_table_column},
+	{"edb_queue", edb_queue_column},
 	{NULL}
 };
