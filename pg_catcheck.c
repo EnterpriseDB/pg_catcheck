@@ -442,8 +442,17 @@ do_connect(void)
 			PQconnectionNeedsPassword(conn) &&
 			password == NULL)
 		{
+#if PG_VERSION_NUM >= 100000
+			char	passbuf[100];
+#endif
+
 			PQfinish(conn);
+#if PG_VERSION_NUM >= 100000
+			simple_prompt("Password: ", passbuf, sizeof(passbuf), false);
+			password = passbuf;
+#else
 			password = simple_prompt("Password: ", 100, false);
+#endif
 			new_pass = true;
 		}
 	} while (new_pass);
