@@ -395,7 +395,7 @@ check_dependency_id(pg_catalog_table *tab, pg_catalog_column *tabcol,
  *
  * This should always be zero except in the where the class ID points to
  * pg_class.  In that case, should be able to find <object ID, sub-ID> in
- * pg_attribute. The object ID will appar in attrelid and the sub-ID in attnum.
+ * pg_attribute. The object ID will appear in attrelid and the sub-ID in attnum.
  */
 void
 check_dependency_subid(pg_catalog_table *tab, pg_catalog_column *tabcol,
