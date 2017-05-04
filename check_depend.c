@@ -459,6 +459,10 @@ lookup_class_id(char *oid)
 
 	Assert(class_id_mappings_attempted && class_id_mapping != NULL);
 
+	/* For LargeObjectRelationId, substitute LargeObjectMetadataOidIndexId. */
+	if (strcmp(oid, "2613") == 0)
+		oid = "2995";
+
 	for (i = 0; i < num_class_id_mapping; ++i)
 		if (strcmp(class_id_mapping[i].oid, oid) == 0)
 			return class_id_mapping[i].tab;
