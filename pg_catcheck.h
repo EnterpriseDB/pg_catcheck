@@ -178,6 +178,10 @@ pg_attribute_printf(4, 5);
 #endif
 extern void pgcc_log_completion(void);
 
+#ifndef PG_USED_FOR_ASSERTS_ONLY
+#define PG_USED_FOR_ASSERTS_ONLY
+#endif
+
 /* pgrhash.c */
 
 #define		MAX_KEY_COLS		10

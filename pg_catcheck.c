@@ -712,7 +712,7 @@ perform_checks(PGconn *conn)
 		while (best->num_needs > 0)
 		{
 			pg_catalog_table *reftab = best->needs[best->num_needs - 1];
-			int			old_num_needs = best->num_needs;
+			int			old_num_needs PG_USED_FOR_ASSERTS_ONLY = best->num_needs;
 
 			if (!reftab->needs_load)
 				continue;
