@@ -119,6 +119,16 @@ struct pg_catalog_check_oid check_type_oid_vector =
 {CHECK_OID_VECTOR_REFERENCE, false, "pg_type"};
 struct pg_catalog_check_oid check_type_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_type"};
+struct pg_catalog_check_oid check_queue_oid =
+{CHECK_OID_REFERENCE, false, "edb_queue"};
+struct pg_catalog_check_oid check_collation_oid =
+{CHECK_OID_REFERENCE, false, "pg_collation"};
+struct pg_catalog_check_oid check_publication_oid =
+{CHECK_OID_REFERENCE, false, "pg_publication"};
+struct pg_catalog_check_oid check_database_oid =
+{CHECK_OID_REFERENCE, false, "pg_database"};
+struct pg_catalog_check_oid check_subscription_oid =
+{CHECK_OID_REFERENCE, false, "pg_subscription"};
 
 /* pg_catalog_table & pg_catalog_column */
 struct pg_catalog_column pg_class_column[] =
@@ -746,6 +756,127 @@ struct pg_catalog_column edb_queue_column [] =
 	{NULL}
 };
 
+struct pg_catalog_column edb_password_history_column[] =
+{
+	/* edb_password_history */
+	{"passhistroleid", NULL, 90500, 0, true, true, true, &check_authid_oid},
+	{"passhistpassword", NULL, 90500, 0, true, true, true},
+	{"passhistpasswordsetat", NULL, 90500, 0, true, false, true},
+	{NULL}
+};
+
+struct pg_catalog_column edb_queue_callback_column[] =
+{
+	/* edb_queue_callback */
+	{"oid", NULL, 90600, 0, true, true, true},
+	{"qcbqueueid", NULL, 90600, 0, true, false, true, &check_queue_oid},
+	{"qcbowner", NULL, 90600, 0, true, false, false, &check_authid_oid},
+	{NULL}
+};
+
+struct pg_catalog_column edb_resource_group_column[] =
+{
+	/* edb_resource_group */
+	{"oid", NULL, 90400, 0, true, true, true},
+	{"rgrpname", NULL, 90400, 0, true, false, true},
+	{NULL}
+};
+
+struct pg_catalog_column pg_init_privs_column[] =
+{
+	/* pg_init_privs */
+	{"objoid", NULL, 90600, 0, false, true, true},
+	{"classoid", NULL, 90600, 0, false, true, true, &check_class_oid},
+	{"objsubid", NULL, 90600, 0, false, true, true},
+	{NULL}
+};
+
+struct pg_catalog_column pg_partitioned_table_column[] =
+{
+	/* pg_partitioned_table */
+	{"partrelid", NULL, 100000, 0, false, true, true, &check_class_oid},
+	{"partclass", NULL, 100000, 0, false, false, false, &check_opclass_oid_vector},
+	{"partcollation", NULL, 100000, 0, false, false, false, &check_collation_optional_oid_vector},
+	{NULL}
+};
+
+struct pg_catalog_column pg_pltemplate_column[] =
+{
+	/* pg_pltemplate */
+	{"tmplname", NULL, 0, 0, false, true, true},
+	{NULL}
+};
+
+struct pg_catalog_column pg_publication_column[] =
+{
+	/* pg_publication */
+	{"oid", NULL, 100000, 0, false, true, true},
+	{"pubowner", NULL, 100000, 0, false, false, false, &check_authid_oid},
+	{NULL}
+};
+
+struct pg_catalog_column pg_publication_rel_column[] =
+{
+	/* pg_publication_rel */
+	{"oid", NULL, 100000, 0, false, true, true},
+	{"prpubid", NULL, 100000, 0, false, false, false, &check_publication_oid},
+	{"prrelid", NULL, 100000, 0, false, false, false, &check_class_oid},
+	{NULL}
+};
+
+struct pg_catalog_column pg_replication_origin_column[] =
+{
+	/* pg_replication_origin */
+	{"roident", NULL, 90500, 0, false, true, true},
+	{NULL}
+};
+
+struct pg_catalog_column pg_sequence_column[] =
+{
+	/* pg_sequence */
+	{"seqrelid", NULL, 100000, 0, false, true, true, &check_class_oid},
+	{"seqtypid", NULL, 100000, 0, false, false, false, &check_type_oid},
+	{NULL}
+};
+
+struct pg_catalog_column pg_statistic_ext_column[] =
+{
+	/* pg_statistic_ext */
+	{"oid", NULL, 100000, 0, false, true, true},
+	{"stxrelid", NULL, 100000, 0, false, false, false, &check_class_oid},
+	{"stxnamespace", NULL, 100000, 0, false, false, false, &check_namespace_oid},
+	{"stxowner", NULL, 100000, 0, false, false, false, &check_authid_oid},
+	{NULL}
+};
+
+struct pg_catalog_column pg_subscription_column[] =
+{
+	/* pg_subscription */
+	{"oid", NULL, 100000, 0, false, true, true},
+	{"subdbid", NULL, 100000, 0, false, false, false, &check_database_oid},
+	{"subowner", NULL, 100000, 0, false, false, false, &check_authid_oid},
+	{NULL}
+};
+
+struct pg_catalog_column pg_subscription_rel_column[] =
+{
+	/* pg_subscription_rel */
+	{"srsubid", NULL, 100000, 0, false, true, true, &check_subscription_oid},
+	{"srrelid", NULL, 100000, 0, false, true, true, &check_class_oid},
+	{NULL}
+};
+
+struct pg_catalog_column pg_transform_column[] =
+{
+	/* pg_transform */
+	{"oid", NULL, 90500, 0, false, true, true},
+	{"trftype", NULL, 90500, 0, false, false, false, &check_type_oid},
+	{"trflang", NULL, 90500, 0, false, false, false, &check_language_oid},
+	{"trffromsql", NULL, 90500, 0, false, false, false, &check_proc_oid},
+	{"trftosql", NULL, 90500, 0, false, false, false, &check_proc_oid},
+	{NULL}
+};
+
 struct pg_catalog_table pg_catalog_tables[] =
 {
 	{"pg_class", pg_class_column},
@@ -808,5 +939,19 @@ struct pg_catalog_table pg_catalog_tables[] =
 	{"edb_profile", edb_profile_column},
 	{"edb_queue_table", edb_queue_table_column},
 	{"edb_queue", edb_queue_column},
+	{"edb_password_history", edb_password_history_column},
+	{"edb_queue_callback", edb_queue_callback_column},
+	{"edb_resource_group", edb_resource_group_column},
+	{"pg_init_privs", pg_init_privs_column},
+	{"pg_partitioned_table", pg_partitioned_table_column},
+	{"pg_pltemplate", pg_pltemplate_column},
+	{"pg_publication", pg_publication_column},
+	{"pg_publication_rel", pg_publication_rel_column},
+	{"pg_replication_origin", pg_replication_origin_column},
+	{"pg_sequence", pg_sequence_column},
+	{"pg_statistic_ext", pg_statistic_ext_column},
+	{"pg_subscription", pg_subscription_column},
+	{"pg_subscription_rel", pg_subscription_rel_column},
+	{"pg_transform", pg_transform_column},
 	{NULL}
 };
