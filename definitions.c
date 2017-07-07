@@ -611,19 +611,19 @@ struct pg_catalog_column edb_dir_column[] =
 struct pg_catalog_column edb_partdef_column[] =
 {
 	/* edb_partdef */
-	{"oid", NULL, 90100, 0, true, true, true},
-	{"pdefrel", NULL, 90100, 0, true, false, false, &check_class_oid},
+	{"oid", NULL, 90100, 90699, true, true, true},
+	{"pdefrel", NULL, 90100, 90699, true, false, false, &check_class_oid},
 	{NULL}
 };
 
 struct pg_catalog_column edb_partition_column[] =
 {
 	/* edb_partition */
-	{"oid", NULL, 90100, 0, true, true, true},
-	{"partpdefid", NULL, 90100, 0, true, false, false, &check_edb_partdef},
-	{"partrelid", NULL, 90100, 0, true, false, false, &check_class_oid},
-	{"partparent", NULL, 90100, 0, true, false, false, &check_edb_partition_optional_oid},
-	{"partcons", NULL, 90100, 0, true, false, false, &check_constraint_oid},
+	{"oid", NULL, 90100, 90699, true, true, true},
+	{"partpdefid", NULL, 90100, 90699, true, false, false, &check_edb_partdef},
+	{"partrelid", NULL, 90100, 90699, true, false, false, &check_class_oid},
+	{"partparent", NULL, 90100, 90699, true, false, false, &check_edb_partition_optional_oid},
+	{"partcons", NULL, 90100, 90699, true, false, false, &check_constraint_oid},
 	{NULL}
 };
 
