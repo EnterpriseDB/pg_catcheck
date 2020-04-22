@@ -3,7 +3,8 @@ PGAPPICON = win32
 
 PROGRAM = pg_catcheck
 OBJS	= pg_catcheck.o check_attribute.o check_class.o check_depend.o \
-			check_oids.o compat.o definitions.o log.o pgrhash.o
+			check_oids.o compat.o definitions.o log.o pgrhash.o \
+			select_from_relations.o
 
 PG_CPPFLAGS = -I$(libpq_srcdir)
 PG_LIBS = $(libpq_pgport) $(PTHREAD_LIBS)

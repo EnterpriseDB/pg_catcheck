@@ -78,6 +78,10 @@ manually can make a bad situation worse and lead to data loss, and should
 not be attempted unless you are knowledgeable about how PostgreSQL uses these
 catalogs.
 
+pg_catcheck also provides an option to run "SELECT * FROM <table> LIMIT 0"
+on each table in the database, which will detect missing or inaccessible
+relation files. The --select-from-relations option enables this check.
+
 What is the license for pg_catcheck?  Can I contribute?
 =======================================================
 

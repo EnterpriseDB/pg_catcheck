@@ -40,6 +40,7 @@ const char *progname;
 int			remote_version;
 bool		remote_is_edb;
 char	   *database_oid;
+bool		select_from_relations = false;
 
 #define MINIMUM_SUPPORTED_VERSION				80400
 
@@ -72,6 +73,7 @@ main(int argc, char **argv)
 		{"column", required_argument, NULL, 'c'},
 		{"quiet", no_argument, NULL, 'q'},
 		{"verbose", no_argument, NULL, 'v'},
+		{"select-from-relations", no_argument, NULL, 105},
 		{"target-version", required_argument, NULL, 101},
 		{"enterprisedb", no_argument, NULL, 102},
 		{"postgresql", no_argument, NULL, 103},
@@ -157,6 +159,9 @@ main(int argc, char **argv)
 			case 103:
 				remote_is_edb = false;
 				detect_edb = false;
+				break;
+			case 105:
+				select_from_relations = true;
 				break;
 			default:
 				fprintf(stderr, _("Try \"%s --help\" for more information.\n"), progname);
@@ -592,6 +597,10 @@ decide_what_to_check(bool selected_columns)
 		}
 	}
 
+	/* Prepare for select_from_relations, if option been provided. */
+	if (select_from_relations)
+		prepare_to_select_from_relations();
+
 	/*
 	 * Second pass: allow individual checks to mark additional columns as
 	 * needed, and set ordering dependencies.
@@ -734,6 +743,10 @@ perform_checks(PGconn *conn)
 		/* Check the table. */
 		check_table(conn, best);
 	}
+
+	/* Check select-from-relations */
+	if (select_from_relations)
+		perform_select_from_relations(conn);
 }
 
 /*
@@ -1011,6 +1024,7 @@ usage(void)
 	printf("  -t, --table              check only columns in the named tables\n");
 	printf("  -T, --exclude-table      do NOT check the named tables\n");
 	printf("  -C, --exclude-column     do NOT check the named columns\n");
+	printf("  --select-from-relations  execute the SELECT on relations in the database\n");
 	printf("  --target-version=VERSION assume specified target version\n");
 	printf("  --enterprisedb           assume EnterpriseDB database\n");
 	printf("  --postgresql             assume PostgreSQL database\n");

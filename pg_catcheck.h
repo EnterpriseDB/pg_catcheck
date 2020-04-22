@@ -144,6 +144,10 @@ extern void prepare_to_check_oid_reference(pg_catalog_table *tab,
 extern void check_oid_reference(pg_catalog_table *tab,
 					pg_catalog_column *tabcol, int rownum);
 
+/* select_from_relations.c */
+extern void prepare_to_select_from_relations(void);
+extern void perform_select_from_relations(PGconn *conn);
+
 /* log.c */
 typedef enum pgcc_severity
 {

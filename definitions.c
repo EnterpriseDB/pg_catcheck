@@ -152,6 +152,7 @@ struct pg_catalog_column pg_namespace_column[] =
 {
 	/* pg_namespace */
 	{"oid", NULL, 0, 0, false, true, true},
+	{"nspname", NULL, 0, 0, false, false, true},
 	{"nspowner", NULL, 0, 0, false, false, false, &check_authid_oid},
 	{"nspparent", NULL, 0, 0, true, false, false, &check_namespace_optional_oid},
 	{"nspobjecttype", NULL, 90200, 0, true, false, false, &check_type_optional_oid},
