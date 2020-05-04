@@ -63,6 +63,7 @@
 		<SrcFiles Include="log.c" />
 		<SrcFiles Include="pg_catcheck.c" />
 		<SrcFiles Include="pgrhash.c" />
+		<SrcFiles Include="select_from_relations.c" />
 	</ItemGroup>
 
     <!-- files to delete -->
