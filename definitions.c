@@ -129,6 +129,12 @@ struct pg_catalog_check_oid check_database_oid =
 {CHECK_OID_REFERENCE, false, "pg_database"};
 struct pg_catalog_check_oid check_subscription_oid =
 {CHECK_OID_REFERENCE, false, "pg_subscription"};
+struct pg_catalog_check_oid check_redaction_policy_oid =
+{CHECK_OID_REFERENCE, false, "edb_redaction_policy"};
+struct pg_catalog_check_oid check_statistic_ext_oid =
+{CHECK_OID_REFERENCE, false, "pg_statistic_ext"};
+struct pg_catalog_check_oid check_trigger_optional_oid =
+{CHECK_OID_REFERENCE, true, "pg_trigger"};
 
 /* pg_catalog_table & pg_catalog_column */
 struct pg_catalog_column pg_class_column[] =
@@ -259,6 +265,7 @@ struct pg_catalog_column pg_constraint_column[] =
 	{"conppeqop", NULL, 0, 0, false, false, false, &check_operator_oid_array},
 	{"conffeqop", NULL, 0, 0, false, false, false, &check_operator_oid_array},
 	{"conexclop", NULL, 90000, 0, false, false, false, &check_operator_oid_array},
+	{"conparentid", NULL, 110000, 0, false, false, false, &check_constraint_optional_oid},
 	{NULL}
 };
 
@@ -314,8 +321,10 @@ struct pg_catalog_column pg_trigger_column[] =
 {
 	/* pg_trigger */
 	{"oid", NULL, 0, 0, false, true, true},
+	{"tgpackageoid", NULL, 120000, 0, true, false, false, &check_namespace_optional_oid},
+	{"tgparentid", NULL, 130000, 0, false, false, false, &check_trigger_optional_oid},
 	{"tgrelid", NULL, 0, 0, false, false, false, &check_class_oid},
-	{"tgfoid", NULL, 0, 0, false, false, false, &check_proc_oid},
+	{"tgfoid", NULL, 0, 0, false, false, false, &check_proc_optional_oid},
 	{"tgconstrrelid", NULL, 0, 0, false, false, false, &check_class_optional_oid},
 	{"tgconstrindid", NULL, 90000, 0, false, false, false, &check_index_optional_oid},
 	{"tgconstraint", NULL, 0, 0, false, false, false, &check_constraint_optional_oid},
@@ -582,6 +591,10 @@ struct pg_catalog_column pg_statistic_column[] =
 	{"staop2", NULL, 0, 0, false, false, false, &check_operator_optional_oid},
 	{"staop3", NULL, 0, 0, false, false, false, &check_operator_optional_oid},
 	{"staop4", NULL, 0, 0, false, false, false, &check_operator_optional_oid},
+	{"stacoll1", NULL, 120000, 0, false, false, false, &check_collation_optional_oid},
+	{"stacoll2", NULL, 120000, 0, false, false, false, &check_collation_optional_oid},
+	{"stacoll3", NULL, 120000, 0, false, false, false, &check_collation_optional_oid},
+	{"stacoll4", NULL, 120000, 0, false, false, false, &check_collation_optional_oid},
 	{NULL}
 };
 
@@ -796,6 +809,7 @@ struct pg_catalog_column pg_partitioned_table_column[] =
 {
 	/* pg_partitioned_table */
 	{"partrelid", NULL, 100000, 0, false, true, true, &check_class_oid},
+	{"partdefid", NULL, 110000, 0, false, false, false, &check_class_optional_oid},
 	{"partclass", NULL, 100000, 0, false, false, false, &check_opclass_oid_vector},
 	{"partcollation", NULL, 100000, 0, false, false, false, &check_collation_optional_oid_vector},
 	{NULL}
@@ -850,6 +864,13 @@ struct pg_catalog_column pg_statistic_ext_column[] =
 	{NULL}
 };
 
+struct pg_catalog_column pg_statistic_ext_data_column[] =
+{
+	/* pg_statistic_ext_data */
+	{"stxoid", NULL, 120000, 0, false, true, true, &check_statistic_ext_oid},
+	{NULL}
+};
+
 struct pg_catalog_column pg_subscription_column[] =
 {
 	/* pg_subscription */
@@ -875,6 +896,23 @@ struct pg_catalog_column pg_transform_column[] =
 	{"trflang", NULL, 90500, 0, false, false, false, &check_language_oid},
 	{"trffromsql", NULL, 90500, 0, false, false, false, &check_proc_oid},
 	{"trftosql", NULL, 90500, 0, false, false, false, &check_proc_oid},
+	{NULL}
+};
+
+struct pg_catalog_column edb_redaction_column[] =
+{
+	/* edb_redaction_column */
+	{"oid", NULL, 110000, 0, true, true, true},
+	{"rdpolicyid", NULL, 110000, 0, true, false, false, &check_redaction_policy_oid},
+	{"rdrelid", NULL, 110000, 0, true, false, false, &check_class_oid},
+	{NULL}
+};
+
+struct pg_catalog_column edb_redaction_policy_column[] =
+{
+	/* edb_redaction_policy */
+	{"oid", NULL, 110000, 0, true, true, true},
+	{"rdrelid", NULL, 110000, 0, true, false, false, &check_class_oid},
 	{NULL}
 };
 
@@ -954,5 +992,8 @@ struct pg_catalog_table pg_catalog_tables[] =
 	{"pg_subscription", pg_subscription_column},
 	{"pg_subscription_rel", pg_subscription_rel_column},
 	{"pg_transform", pg_transform_column},
+	{"edb_redaction_column", edb_redaction_column},
+	{"edb_redaction_policy", edb_redaction_policy_column},
+	{"pg_statistic_ext_data", pg_statistic_ext_data_column},
 	{NULL}
 };
