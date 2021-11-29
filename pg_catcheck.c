@@ -28,6 +28,10 @@
 #include "pg_catcheck.h"
 #include <ctype.h>
 
+#if PG_VERSION_NUM >= 140000
+#include "common/string.h"
+#endif
+
 extern char *optarg;
 extern int	optind;
 
@@ -447,12 +451,14 @@ do_connect(void)
 			PQconnectionNeedsPassword(conn) &&
 			password == NULL)
 		{
-#if PG_VERSION_NUM >= 100000
+#if (PG_VERSION_NUM >= 100000 && PG_VERSION_NUM < 140000)
 			char	passbuf[100];
 #endif
 
 			PQfinish(conn);
-#if PG_VERSION_NUM >= 100000
+#if PG_VERSION_NUM >= 140000
+			password = simple_prompt("Password: ", false);
+#elif PG_VERSION_NUM >= 100000
 			simple_prompt("Password: ", passbuf, sizeof(passbuf), false);
 			password = passbuf;
 #else
