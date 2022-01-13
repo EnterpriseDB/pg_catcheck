@@ -895,8 +895,8 @@ struct pg_catalog_column pg_transform_column[] =
 	{"oid", NULL, 90500, 0, false, true, true},
 	{"trftype", NULL, 90500, 0, false, false, false, &check_type_oid},
 	{"trflang", NULL, 90500, 0, false, false, false, &check_language_oid},
-	{"trffromsql", NULL, 90500, 0, false, false, false, &check_proc_oid},
-	{"trftosql", NULL, 90500, 0, false, false, false, &check_proc_oid},
+	{"trffromsql", "pg_catalog.oid", 90500, 0, false, false, false, &check_proc_oid},
+	{"trftosql", "pg_catalog.oid", 90500, 0, false, false, false, &check_proc_oid},
 	{NULL}
 };
 
