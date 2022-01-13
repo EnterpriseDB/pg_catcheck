@@ -567,6 +567,7 @@ struct pg_catalog_column pg_range_column[] =
 	{"rngsubopc", NULL, 90200, 0, false, false, false, &check_opclass_oid},
 	{"rngcanonical", "pg_catalog.oid", 90200, 0, false, false, false, &check_proc_optional_oid},
 	{"rngsubdiff", "pg_catalog.oid", 90200, 0, false, false, false, &check_proc_optional_oid},
+	{"rngmultitypid", NULL, 140000, 0, false, false, false, &check_type_oid},
 	{NULL}
 };
 
@@ -916,6 +917,22 @@ struct pg_catalog_column edb_redaction_policy_column[] =
 	{NULL}
 };
 
+struct pg_catalog_column edb_last_ddl_time_column[] =
+{
+	/* edb_last_ddl_time */
+	{"classid", NULL, 140000, 0, true, false, true, &check_dependency_class_id_value},
+	{"objid", NULL, 140000, 0, true, false, true, &check_dependency_id_value},
+	{NULL}
+};
+
+struct pg_catalog_column edb_last_ddl_time_shared_column[] =
+{
+	/* edb_last_ddl_time_shared */
+	{"classid", NULL, 140000, 0, true, false, true, &check_dependency_class_id_value},
+	{"objid", NULL, 140000, 0, true, false, true, &check_dependency_id_value},
+	{NULL}
+};
+
 struct pg_catalog_table pg_catalog_tables[] =
 {
 	{"pg_class", pg_class_column},
@@ -995,5 +1012,7 @@ struct pg_catalog_table pg_catalog_tables[] =
 	{"edb_redaction_column", edb_redaction_column},
 	{"edb_redaction_policy", edb_redaction_policy_column},
 	{"pg_statistic_ext_data", pg_statistic_ext_data_column},
+	{"edb_last_ddl_time", edb_last_ddl_time_column},
+	{"edb_last_ddl_time_shared", edb_last_ddl_time_shared_column},
 	{NULL}
 };

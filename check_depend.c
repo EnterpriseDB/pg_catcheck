@@ -34,6 +34,7 @@ typedef enum
 	DEPEND_COLUMN_STYLE_OBJID,	/* pg_(sh)depend, referring side */
 	DEPEND_COLUMN_STYLE_REFOBJID,		/* pg_(sh)depend, referenced side */
 	DEPEND_COLUMN_STYLE_OBJOID, /* pg_(sh)description, pg_(sh)seclabel */
+	EDB_DDLTIME_COLUMN_STYLE_OBJID	/* edb_last_ddl_time(_shared) */
 } depend_column_style;
 
 typedef struct check_depend_cache
@@ -187,6 +188,7 @@ prepare_to_check_dependency_id(pg_catalog_table *tab, pg_catalog_column *tabcol)
 	switch (get_style(tab->table_name, tabcol->name))
 	{
 		case DEPEND_COLUMN_STYLE_OBJID:
+		case EDB_DDLTIME_COLUMN_STYLE_OBJID:
 			classid = find_column_by_name(tab, "classid");
 			break;
 		case DEPEND_COLUMN_STYLE_REFOBJID:
@@ -230,6 +232,7 @@ prepare_to_check_dependency_subid(pg_catalog_table *tab,
 	switch (get_style(tab->table_name, tabcol->name))
 	{
 		case DEPEND_COLUMN_STYLE_OBJID:
+		case EDB_DDLTIME_COLUMN_STYLE_OBJID:
 			classid = find_column_by_name(tab, "classid");
 			objectid = find_column_by_name(tab, "objid");
 			break;
@@ -648,6 +651,11 @@ build_depend_cache(pg_catalog_table *tab, pg_catalog_column *tabcol)
 			cache->class_result_column = PQfnumber(tab->data, "classid");
 			cache->object_result_column = PQfnumber(tab->data, "objid");
 			break;
+		case EDB_DDLTIME_COLUMN_STYLE_OBJID:
+			cache->database_result_column = -1;
+			cache->class_result_column = PQfnumber(tab->data, "classid");
+			cache->object_result_column = PQfnumber(tab->data, "objid");
+			break;
 		case DEPEND_COLUMN_STYLE_REFOBJID:
 			cache->database_result_column = -1;
 			cache->class_result_column = PQfnumber(tab->data, "refclassid");
@@ -768,6 +776,11 @@ not_for_this_database(check_depend_cache *cache, pg_catalog_table *tab,
  * other.  Other tables that contain similar information, such as
  * pg_description, pg_shdescription, pg_seclabel, and pg_shseclabel, use
  * objoid/classoid/objsubid.
+ *
+ * edb_last_ddl_time and edb_last_ddl_time_shared use objid/classid/objsubid
+ * like pg_depend but need a separate enum value because they do not have a
+ * deptype column, which prepare_to_check_dependency_class_id() would expect
+ * if we used DEPEND_COLUMN_STYLE_OBJID.
  */
 static depend_column_style
 get_style(char *table_name, char *column_name)
@@ -776,6 +789,8 @@ get_style(char *table_name, char *column_name)
 		return DEPEND_COLUMN_STYLE_REFOBJID;
 	else if (strstr(table_name, "depend"))
 		return DEPEND_COLUMN_STYLE_OBJID;
+	else if (strstr(table_name, "edb_last_ddl_time"))
+		return EDB_DDLTIME_COLUMN_STYLE_OBJID;
 	else
 		return DEPEND_COLUMN_STYLE_OBJOID;
 }
