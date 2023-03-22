@@ -15,6 +15,10 @@
 
 #include "pg_catcheck.h"
 
+#if PG_VERSION_NUM >= 150000
+#include "port/pg_bitutils.h"
+#endif
+
 typedef struct pgrhash_entry
 {
 	struct pgrhash_entry *next; /* link to next entry in same bucket */
@@ -45,10 +49,21 @@ pgrhash_create(PGresult *result, int nkeycols, int *keycols)
 {
 	unsigned	bucket_shift;
 	pgrhash    *ht;
+	int ntuples;
 
 	Assert(nkeycols >= 1 && nkeycols <= MAX_KEY_COLS);
 
-	bucket_shift = fls(PQntuples(result));
+	ntuples = PQntuples(result);
+
+#if PG_VERSION_NUM >= 150000
+	if (ntuples == 0)
+		bucket_shift = 0;
+	else
+		bucket_shift = pg_leftmost_one_pos32(ntuples) + 1;
+#else
+	bucket_shift = fls(ntuples);
+#endif
+
 	if (bucket_shift >= sizeof(unsigned) * BITS_PER_BYTE)
 		pgcc_log(PGCC_FATAL, "too many tuples");
 
