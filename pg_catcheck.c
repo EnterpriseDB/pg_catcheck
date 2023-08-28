@@ -62,6 +62,11 @@ static void build_hash_from_query_results(pg_catalog_table *tab);
 static void usage(void);
 static char *get_database_oid(PGconn *conn);
 
+#if PG_VERSION_NUM >= 90200
+static void load_check_by_singlerow(PGconn *conn, pg_catalog_table *tab,
+								PQExpBuffer query);
+#endif
+
 /*
  * Main program.
  */
@@ -747,13 +752,60 @@ perform_checks(PGconn *conn)
 		}
 
 		/* Check the table. */
-		check_table(conn, best);
+		if (best->needs_check)
+			check_table(conn, best);
 	}
 
 	/* Check select-from-relations */
 	if (select_from_relations)
 		perform_select_from_relations(conn);
 }
+
+#if PG_VERSION_NUM >= 90200
+static void
+/*
+ * load_check_by_singlerow() loads one row at a time and perform check_table()
+ * immediately. This mode does not create hash for the table's key columns and
+ * hence should be called only for tables that do not have any dependees.
+ */
+load_check_by_singlerow(PGconn *conn, pg_catalog_table *tab, PQExpBuffer query)
+{
+	PGresult   *res = NULL;
+	int			ntups = 0;
+
+	if (PQsendQuery(conn, query->data) != 1)
+	{
+		pgcc_log(PGCC_ERROR, "could not send query for table %s: %s\n",
+				tab->table_name, PQerrorMessage(conn));
+		goto exit;
+	}
+
+	/* Set single-row mode */
+	if (PQsetSingleRowMode(conn) != 1)
+	{
+		pgcc_log(PGCC_ERROR, "could not set libpq connection to single "
+				"row mode for table %s\n", tab->table_name);
+		goto exit;
+	}
+
+	while ((res = PQgetResult(conn)) != NULL)
+	{
+		if (PQresultStatus(res) == PGRES_SINGLE_TUPLE)
+		{
+			ntups++;
+			tab->data = res;
+			check_table(conn, tab);
+		}
+		PQclear(res);
+	}
+
+	pgcc_log(PGCC_VERBOSE, "checked table %s (%d rows)\n", tab->table_name,
+			 ntups);
+
+exit:
+	tab->needs_check = false;
+}
+#endif
 
 /*
  * Load a table into memory.
@@ -762,6 +814,7 @@ static void
 load_table(PGconn *conn, pg_catalog_table *tab)
 {
 	PQExpBuffer query;
+	bool		need_load = true;
 	int			i;
 
 	Assert(tab->needs_load);
@@ -769,21 +822,34 @@ load_table(PGconn *conn, pg_catalog_table *tab)
 	/* Load the table data. */
 	query = build_query_for_table(tab);
 	pgcc_log(PGCC_DEBUG, "executing query: %s\n", query->data);
-	tab->data = PQexec(conn, query->data);
-	if (PQresultStatus(tab->data) != PGRES_TUPLES_OK)
-	{
-		char	   *message = PQresultErrorMessage(tab->data);
 
-		if (message != NULL && message[0] != '\0')
-			pgcc_log(PGCC_ERROR, "could not load table %s: %s",
-					 tab->table_name, message);
-		else
-			pgcc_log(PGCC_ERROR,
-					 "could not load table %s: unexpected status %s\n",
-					 tab->table_name, PQresStatus(PQresultStatus(tab->data)));
+#if PG_VERSION_NUM >= 90200
+	if (tab->num_needed_by == 0)
+	{
+		load_check_by_singlerow(conn, tab, query);
+		need_load = false;
 	}
-	else
-		build_hash_from_query_results(tab);
+#endif
+
+	if (need_load)
+	{
+		tab->data = PQexec(conn, query->data);
+		if (PQresultStatus(tab->data) != PGRES_TUPLES_OK)
+		{
+			char	   *message = PQresultErrorMessage(tab->data);
+
+			if (message != NULL && message[0] != '\0')
+				pgcc_log(PGCC_ERROR, "could not load table %s: %s",
+				tab->table_name, message);
+			else
+				pgcc_log(PGCC_ERROR,
+					"could not load table %s: unexpected status %s\n",
+					tab->table_name, PQresStatus(PQresultStatus(tab->data)));
+		}
+		else
+			build_hash_from_query_results(tab);
+	}
+
 	destroyPQExpBuffer(query);
 
 	/* This table is now loaded. */
@@ -830,15 +896,27 @@ check_table(PGconn *conn, pg_catalog_table *tab)
 
 	/*
 	 * If we weren't able to retrieve the table data, then we can't check the
-	 * table.  But there's no real need to log the error message, becaues
+	 * table.  But there's no real need to log the error message, because
 	 * load_table() will have already done so.
 	 */
+#if PG_VERSION_NUM >= 90200
+	/* The table could be loaded either in single-row mode or bulk mode */
+	if (PQresultStatus(tab->data) != PGRES_TUPLES_OK &&
+		PQresultStatus(tab->data) != PGRES_SINGLE_TUPLE)
+		return;
+#else
 	if (PQresultStatus(tab->data) != PGRES_TUPLES_OK)
 		return;
+#endif
 
-	/* Log a message, if verbose mode is enabled. */
+	/*
+	 * Log a message, if verbose mode is enabled. If the table was loaded in
+	 * single-row mode the caller takes care of logging the total row count.
+	 */
 	ntups = PQntuples(tab->data);
-	pgcc_log(PGCC_VERBOSE, "checking table %s (%d rows)\n", tab->table_name,
+
+	if (PQresultStatus(tab->data) == PGRES_TUPLES_OK)
+		pgcc_log(PGCC_VERBOSE, "checking table %s (%d rows)\n", tab->table_name,
 			 ntups);
 
 	/* Loop over the rows and check them. */
