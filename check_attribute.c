@@ -9,7 +9,19 @@
 
 #include "postgres_fe.h"
 #include "pg_catcheck.h"
+
+/*
+ * pg_attribute_d.h was added by commit 372728b0d, which first appeared in
+ * v11. But including pg_attribute.h still worked fine until commit
+ * d939cb2fd appeared in v17. Realistically, pg_attribute_d.h should work
+ * for any version anyone still cares about, but for now, just enable it
+ * for new versions.
+ */
+#if PG_VERSION_NUM >= 170000
+#include "catalog/pg_attribute_d.h"
+#else
 #include "catalog/pg_attribute.h"
+#endif
 
 typedef struct
 {
