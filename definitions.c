@@ -23,121 +23,119 @@
 
 #include "pg_catcheck.h"
 
-struct pg_catalog_check_oid check_am_oid =
+static struct pg_catalog_check_oid check_am_oid =
 {CHECK_OID_REFERENCE, false, "pg_am"};
-struct pg_catalog_check_oid check_am_optional_oid =
+static struct pg_catalog_check_oid check_am_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_am"};
-struct pg_catalog_check_oid check_attnum_value =
+static struct pg_catalog_check_oid check_attnum_value =
 {CHECK_ATTNUM};
-struct pg_catalog_check_oid check_authid_oid =
+static struct pg_catalog_check_oid check_authid_oid =
 {CHECK_OID_REFERENCE, false, "pg_authid"};
-struct pg_catalog_check_oid check_authid_oid_array_zero_ok =
+static struct pg_catalog_check_oid check_authid_oid_array_zero_ok =
 {CHECK_OID_ARRAY_REFERENCE, true, "pg_authid"};
-struct pg_catalog_check_oid check_authid_optional_oid =
+static struct pg_catalog_check_oid check_authid_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_authid"};
-struct pg_catalog_check_oid check_class_oid =
+static struct pg_catalog_check_oid check_class_oid =
 {CHECK_OID_REFERENCE, false, "pg_class"};
-struct pg_catalog_check_oid check_class_oid_array =
+static struct pg_catalog_check_oid check_class_oid_array =
 {CHECK_OID_ARRAY_REFERENCE, false, "pg_class"};
-struct pg_catalog_check_oid check_class_optional_oid =
+static struct pg_catalog_check_oid check_class_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_class"};
-struct pg_catalog_check_oid check_constraint_oid =
+static struct pg_catalog_check_oid check_constraint_oid =
 {CHECK_OID_REFERENCE, false, "pg_constraint"};
-struct pg_catalog_check_oid check_collation_optional_oid =
+static struct pg_catalog_check_oid check_collation_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_collation"};
-struct pg_catalog_check_oid check_collation_optional_oid_vector =
+static struct pg_catalog_check_oid check_collation_optional_oid_vector =
 {CHECK_OID_VECTOR_REFERENCE, true, "pg_collation"};
-struct pg_catalog_check_oid check_constraint_optional_oid =
+static struct pg_catalog_check_oid check_constraint_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_constraint"};
-struct pg_catalog_check_oid check_database_optional_oid =
+static struct pg_catalog_check_oid check_database_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_database"};
-struct pg_catalog_check check_dependency_id_value =
+static struct pg_catalog_check check_dependency_id_value =
 {CHECK_DEPENDENCY_ID};
-struct pg_catalog_check check_dependency_class_id_value =
+static struct pg_catalog_check check_dependency_class_id_value =
 {CHECK_DEPENDENCY_CLASS_ID};
-struct pg_catalog_check check_dependency_subid_value =
+static struct pg_catalog_check check_dependency_subid_value =
 {CHECK_DEPENDENCY_SUBID};
-struct pg_catalog_check_oid check_edb_partdef =
+static struct pg_catalog_check_oid check_edb_partdef =
 {CHECK_OID_REFERENCE, false, "edb_partdef"};
-struct pg_catalog_check_oid check_edb_partition_optional_oid =
+static struct pg_catalog_check_oid check_edb_partition_optional_oid =
 {CHECK_OID_REFERENCE, true, "edb_partition"};
-struct pg_catalog_check_oid check_foreign_data_wrapper_oid =
+static struct pg_catalog_check_oid check_foreign_data_wrapper_oid =
 {CHECK_OID_REFERENCE, false, "pg_foreign_data_wrapper"};
-struct pg_catalog_check_oid check_foreign_server_oid =
+static struct pg_catalog_check_oid check_foreign_server_oid =
 {CHECK_OID_REFERENCE, false, "pg_foreign_server"};
-struct pg_catalog_check_oid check_foreign_server_optional_oid =
+static struct pg_catalog_check_oid check_foreign_server_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_foreign_server"};
-struct pg_catalog_check_oid check_index_optional_oid =
+static struct pg_catalog_check_oid check_index_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_index"};
-struct pg_catalog_check_oid check_language_oid =
+static struct pg_catalog_check_oid check_language_oid =
 {CHECK_OID_REFERENCE, false, "pg_language"};
-struct pg_catalog_check_oid check_largeobject_metadata_oid =
+static struct pg_catalog_check_oid check_largeobject_metadata_oid =
 {CHECK_OID_REFERENCE, false, "pg_largeobject_metadata"};
-struct pg_catalog_check_oid check_namespace_oid =
+static struct pg_catalog_check_oid check_namespace_oid =
 {CHECK_OID_REFERENCE, false, "pg_namespace"};
-struct pg_catalog_check_oid check_namespace_optional_oid =
+static struct pg_catalog_check_oid check_namespace_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_namespace"};
-struct pg_catalog_check_oid check_opclass_oid =
+static struct pg_catalog_check_oid check_opclass_oid =
 {CHECK_OID_REFERENCE, false, "pg_opclass"};
-struct pg_catalog_check_oid check_opclass_oid_vector =
+static struct pg_catalog_check_oid check_opclass_oid_vector =
 {CHECK_OID_VECTOR_REFERENCE, false, "pg_opclass"};
-struct pg_catalog_check_oid check_operator_oid =
+static struct pg_catalog_check_oid check_operator_oid =
 {CHECK_OID_REFERENCE, false, "pg_operator"};
-struct pg_catalog_check_oid check_operator_optional_oid =
+static struct pg_catalog_check_oid check_operator_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_operator"};
-struct pg_catalog_check_oid check_operator_oid_array =
+static struct pg_catalog_check_oid check_operator_oid_array =
 {CHECK_OID_ARRAY_REFERENCE, false, "pg_operator"};
-struct pg_catalog_check_oid check_opfamily_oid =
+static struct pg_catalog_check_oid check_opfamily_oid =
 {CHECK_OID_REFERENCE, false, "pg_opfamily"};
-struct pg_catalog_check_oid check_opfamily_optional_oid =
+static struct pg_catalog_check_oid check_opfamily_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_opfamily"};
-struct pg_catalog_check_oid check_proc_oid =
+static struct pg_catalog_check_oid check_proc_oid =
 {CHECK_OID_REFERENCE, false, "pg_proc"};
-struct pg_catalog_check_oid check_proc_optional_oid =
+static struct pg_catalog_check_oid check_proc_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_proc"};
-struct pg_catalog_check_oid check_profile_oid =
+static struct pg_catalog_check_oid check_profile_oid =
 {CHECK_OID_REFERENCE, true, "edb_profile"};
-struct pg_catalog_check_oid check_relnatts_value =
+static struct pg_catalog_check_oid check_relnatts_value =
 {CHECK_RELNATTS};
-struct pg_catalog_check_oid check_tablespace_oid =
+static struct pg_catalog_check_oid check_tablespace_oid =
 {CHECK_OID_REFERENCE, false, "pg_tablespace"};
-struct pg_catalog_check_oid check_tablespace_optional_oid =
+static struct pg_catalog_check_oid check_tablespace_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_tablespace"};
-struct pg_catalog_check_oid check_ts_config_oid =
+static struct pg_catalog_check_oid check_ts_config_oid =
 {CHECK_OID_REFERENCE, true, "pg_ts_config"};
-struct pg_catalog_check_oid check_ts_dict_oid =
+static struct pg_catalog_check_oid check_ts_dict_oid =
 {CHECK_OID_REFERENCE, true, "pg_ts_dict"};
-struct pg_catalog_check_oid check_ts_parser_oid =
+static struct pg_catalog_check_oid check_ts_parser_oid =
 {CHECK_OID_REFERENCE, true, "pg_ts_parser"};
-struct pg_catalog_check_oid check_ts_template_oid =
+static struct pg_catalog_check_oid check_ts_template_oid =
 {CHECK_OID_REFERENCE, true, "pg_ts_template"};
-struct pg_catalog_check_oid check_type_oid =
+static struct pg_catalog_check_oid check_type_oid =
 {CHECK_OID_REFERENCE, false, "pg_type"};
-struct pg_catalog_check_oid check_type_oid_array =
+static struct pg_catalog_check_oid check_type_oid_array =
 {CHECK_OID_ARRAY_REFERENCE, false, "pg_type"};
-struct pg_catalog_check_oid check_type_oid_vector =
+static struct pg_catalog_check_oid check_type_oid_vector =
 {CHECK_OID_VECTOR_REFERENCE, false, "pg_type"};
-struct pg_catalog_check_oid check_type_optional_oid =
+static struct pg_catalog_check_oid check_type_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_type"};
-struct pg_catalog_check_oid check_queue_oid =
+static struct pg_catalog_check_oid check_queue_oid =
 {CHECK_OID_REFERENCE, false, "edb_queue"};
-struct pg_catalog_check_oid check_collation_oid =
-{CHECK_OID_REFERENCE, false, "pg_collation"};
-struct pg_catalog_check_oid check_publication_oid =
+static struct pg_catalog_check_oid check_publication_oid =
 {CHECK_OID_REFERENCE, false, "pg_publication"};
-struct pg_catalog_check_oid check_database_oid =
+static struct pg_catalog_check_oid check_database_oid =
 {CHECK_OID_REFERENCE, false, "pg_database"};
-struct pg_catalog_check_oid check_subscription_oid =
+static struct pg_catalog_check_oid check_subscription_oid =
 {CHECK_OID_REFERENCE, false, "pg_subscription"};
-struct pg_catalog_check_oid check_redaction_policy_oid =
+static struct pg_catalog_check_oid check_redaction_policy_oid =
 {CHECK_OID_REFERENCE, false, "edb_redaction_policy"};
-struct pg_catalog_check_oid check_statistic_ext_oid =
+static struct pg_catalog_check_oid check_statistic_ext_oid =
 {CHECK_OID_REFERENCE, false, "pg_statistic_ext"};
-struct pg_catalog_check_oid check_trigger_optional_oid =
+static struct pg_catalog_check_oid check_trigger_optional_oid =
 {CHECK_OID_REFERENCE, true, "pg_trigger"};
 
 /* pg_catalog_table & pg_catalog_column */
-struct pg_catalog_column pg_class_column[] =
+static struct pg_catalog_column pg_class_column[] =
 {
 	/* pg_class */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -154,7 +152,7 @@ struct pg_catalog_column pg_class_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_namespace_column[] =
+static struct pg_catalog_column pg_namespace_column[] =
 {
 	/* pg_namespace */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -166,7 +164,7 @@ struct pg_catalog_column pg_namespace_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_authid_column[] =
+static struct pg_catalog_column pg_authid_column[] =
 {
 	/* pg_authid */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -175,7 +173,7 @@ struct pg_catalog_column pg_authid_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_tablespace_column[] =
+static struct pg_catalog_column pg_tablespace_column[] =
 {
 	/* pg_tablespace */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -184,7 +182,7 @@ struct pg_catalog_column pg_tablespace_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_type_column[] =
+static struct pg_catalog_column pg_type_column[] =
 {
 	/* pg_type */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -199,7 +197,7 @@ struct pg_catalog_column pg_type_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_am_column[] =
+static struct pg_catalog_column pg_am_column[] =
 {
 	/* pg_am */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -207,7 +205,7 @@ struct pg_catalog_column pg_am_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_collation_column[] =
+static struct pg_catalog_column pg_collation_column[] =
 {
 	/* pg_collation */
 	{"oid", NULL, 90100, 0, false, true, true},
@@ -216,7 +214,7 @@ struct pg_catalog_column pg_collation_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_proc_column[] =
+static struct pg_catalog_column pg_proc_column[] =
 {
 	/* pg_proc */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -230,7 +228,7 @@ struct pg_catalog_column pg_proc_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_language_column[] =
+static struct pg_catalog_column pg_language_column[] =
 {
 	/* pg_language */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -241,7 +239,7 @@ struct pg_catalog_column pg_language_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_index_column[] =
+static struct pg_catalog_column pg_index_column[] =
 {
 	/* pg_index */
 	{"indexrelid", NULL, 0, 0, false, true, true},
@@ -251,7 +249,7 @@ struct pg_catalog_column pg_index_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_constraint_column[] =
+static struct pg_catalog_column pg_constraint_column[] =
 {
 	/* pg_constraint */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -269,7 +267,7 @@ struct pg_catalog_column pg_constraint_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_database_column[] =
+static struct pg_catalog_column pg_database_column[] =
 {
 	/* pg_database */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -279,7 +277,7 @@ struct pg_catalog_column pg_database_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_cast_column[] =
+static struct pg_catalog_column pg_cast_column[] =
 {
 	/* pg_cast */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -289,7 +287,7 @@ struct pg_catalog_column pg_cast_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_conversion_column[] =
+static struct pg_catalog_column pg_conversion_column[] =
 {
 	/* pg_conversion */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -299,7 +297,7 @@ struct pg_catalog_column pg_conversion_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_extension_column[] =
+static struct pg_catalog_column pg_extension_column[] =
 {
 	/* pg_extension */
 	{"oid", NULL, 90100, 0, false, true, true},
@@ -309,7 +307,7 @@ struct pg_catalog_column pg_extension_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_enum_column[] =
+static struct pg_catalog_column pg_enum_column[] =
 {
 	/* pg_enum */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -317,7 +315,7 @@ struct pg_catalog_column pg_enum_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_trigger_column[] =
+static struct pg_catalog_column pg_trigger_column[] =
 {
 	/* pg_trigger */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -331,7 +329,7 @@ struct pg_catalog_column pg_trigger_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_ts_parser_column[] =
+static struct pg_catalog_column pg_ts_parser_column[] =
 {
 	/* pg_ts_parser */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -344,7 +342,7 @@ struct pg_catalog_column pg_ts_parser_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_ts_config_column[] =
+static struct pg_catalog_column pg_ts_config_column[] =
 {
 	/* pg_ts_config */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -354,7 +352,7 @@ struct pg_catalog_column pg_ts_config_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_ts_template_column[] =
+static struct pg_catalog_column pg_ts_template_column[] =
 {
 	/* pg_ts_template */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -364,7 +362,7 @@ struct pg_catalog_column pg_ts_template_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_ts_dict_column[] =
+static struct pg_catalog_column pg_ts_dict_column[] =
 {
 	/* pg_ts_dict */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -374,7 +372,7 @@ struct pg_catalog_column pg_ts_dict_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_fdw_column[] =
+static struct pg_catalog_column pg_fdw_column[] =
 {
 	/* pg_foreign_data_wrapper */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -384,7 +382,7 @@ struct pg_catalog_column pg_fdw_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_foreign_server_column[] =
+static struct pg_catalog_column pg_foreign_server_column[] =
 {
 	/* pg_foreign_server */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -393,7 +391,7 @@ struct pg_catalog_column pg_foreign_server_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_user_mapping_column[] =
+static struct pg_catalog_column pg_user_mapping_column[] =
 {
 	/* pg_user_mapping */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -402,7 +400,7 @@ struct pg_catalog_column pg_user_mapping_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_foreign_table_column[] =
+static struct pg_catalog_column pg_foreign_table_column[] =
 {
 	/* pg_foreign_table */
 	{"ftrelid", NULL, 90100, 0, false, true, true, &check_class_oid},
@@ -410,7 +408,7 @@ struct pg_catalog_column pg_foreign_table_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_event_trigger_column[] =
+static struct pg_catalog_column pg_event_trigger_column[] =
 {
 	/* pg_event_trigger */
 	{"oid", NULL, 90300, 0, false, true, true},
@@ -419,7 +417,7 @@ struct pg_catalog_column pg_event_trigger_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_opfamily_column[] =
+static struct pg_catalog_column pg_opfamily_column[] =
 {
 	/* pg_opfamily */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -430,7 +428,7 @@ struct pg_catalog_column pg_opfamily_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_opclass_column[] =
+static struct pg_catalog_column pg_opclass_column[] =
 {
 	/* pg_opclass */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -444,7 +442,7 @@ struct pg_catalog_column pg_opclass_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_operator_column[] =
+static struct pg_catalog_column pg_operator_column[] =
 {
 	/* pg_operator */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -462,7 +460,7 @@ struct pg_catalog_column pg_operator_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_amop_column[] =
+static struct pg_catalog_column pg_amop_column[] =
 {
 	/* pg_amop */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -475,7 +473,7 @@ struct pg_catalog_column pg_amop_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_amproc_column[] =
+static struct pg_catalog_column pg_amproc_column[] =
 {
 	/* pg_amproc */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -486,7 +484,7 @@ struct pg_catalog_column pg_amproc_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_default_acl_column[] =
+static struct pg_catalog_column pg_default_acl_column[] =
 {
 	/* pg_default_acl */
 	{"oid", NULL, 90000, 0, false, true, true},
@@ -495,7 +493,7 @@ struct pg_catalog_column pg_default_acl_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_rewrite_column[] =
+static struct pg_catalog_column pg_rewrite_column[] =
 {
 	/* pg_rewrite_column */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -504,7 +502,7 @@ struct pg_catalog_column pg_rewrite_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_variable_column[] =
+static struct pg_catalog_column edb_variable_column[] =
 {
 	/* edb_variable_column */
 	{"oid", NULL, 0, 0, true, true, true},
@@ -513,7 +511,7 @@ struct pg_catalog_column edb_variable_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_inherits_column[] =
+static struct pg_catalog_column pg_inherits_column[] =
 {
 	/* pg_inherits */
 	{"inhrelid", NULL, 0, 0, false, true, true, &check_class_oid},
@@ -521,7 +519,7 @@ struct pg_catalog_column pg_inherits_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_largeobject_metadata_column[] =
+static struct pg_catalog_column pg_largeobject_metadata_column[] =
 {
 	/* pg_largeobject_metadata */
 	{"oid", NULL, 90000, 0, false, true, true},
@@ -529,7 +527,7 @@ struct pg_catalog_column pg_largeobject_metadata_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_largeobject_column[] =
+static struct pg_catalog_column pg_largeobject_column[] =
 {
 	/* pg_largeobject */
 	{"loid", NULL, 0, 0, false, true, true, &check_largeobject_metadata_oid},
@@ -537,7 +535,7 @@ struct pg_catalog_column pg_largeobject_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_aggregate_column[] =
+static struct pg_catalog_column pg_aggregate_column[] =
 {
 	/* pg_aggregate */
 	{"aggfnoid", "pg_catalog.oid", 0, 0, false, true, true, &check_proc_oid},
@@ -548,7 +546,7 @@ struct pg_catalog_column pg_aggregate_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_ts_config_map_column[] =
+static struct pg_catalog_column pg_ts_config_map_column[] =
 {
 	/* pg_ts_config_map */
 	{"mapcfg", NULL, 0, 0, false, true, true, &check_ts_config_oid},
@@ -558,7 +556,7 @@ struct pg_catalog_column pg_ts_config_map_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_range_column[] =
+static struct pg_catalog_column pg_range_column[] =
 {
 	/* pg_range */
 	{"rngtypid", NULL, 90200, 0, false, true, true, &check_type_oid},
@@ -571,7 +569,7 @@ struct pg_catalog_column pg_range_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_attribute_column[] =
+static struct pg_catalog_column pg_attribute_column[] =
 {
 	/* pg_attribute */
 	{"attrelid", NULL, 0, 0, false, true, true, &check_class_oid},
@@ -582,7 +580,7 @@ struct pg_catalog_column pg_attribute_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_statistic_column[] =
+static struct pg_catalog_column pg_statistic_column[] =
 {
 	/* pg_statistic */
 	{"starelid", NULL, 0, 0, false, true, true, &check_class_oid},
@@ -599,7 +597,7 @@ struct pg_catalog_column pg_statistic_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_db_role_setting_column[] =
+static struct pg_catalog_column pg_db_role_setting_column[] =
 {
 	/* pg_db_role_setting */
 	{"setdatabase", NULL, 90000, 0, false, true, true, &check_database_optional_oid},
@@ -607,7 +605,7 @@ struct pg_catalog_column pg_db_role_setting_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_attrdef_column[] =
+static struct pg_catalog_column pg_attrdef_column[] =
 {
 	/* pg_attrdef */
 	{"oid", NULL, 0, 0, false, true, true},
@@ -615,7 +613,7 @@ struct pg_catalog_column pg_attrdef_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_dir_column[] =
+static struct pg_catalog_column edb_dir_column[] =
 {
 	/* edb_dir */
 	{"oid", NULL, 0, 0, true, true, true},
@@ -623,7 +621,7 @@ struct pg_catalog_column edb_dir_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_partdef_column[] =
+static struct pg_catalog_column edb_partdef_column[] =
 {
 	/* edb_partdef */
 	{"oid", NULL, 90100, 90699, true, true, true},
@@ -631,7 +629,7 @@ struct pg_catalog_column edb_partdef_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_partition_column[] =
+static struct pg_catalog_column edb_partition_column[] =
 {
 	/* edb_partition */
 	{"oid", NULL, 90100, 90699, true, true, true},
@@ -647,7 +645,7 @@ struct pg_catalog_column edb_partition_column[] =
  * or a pg_synonym OID depending on policykind, but the pg_synonym support was
  * never implemented.  So for now, we can just check that it's a pg_class OID.
  */
-struct pg_catalog_column edb_policy_column[] =
+static struct pg_catalog_column edb_policy_column[] =
 {
 	/* edb_policy */
 	{"oid", NULL, 90100, 0, true, true, true},
@@ -657,7 +655,7 @@ struct pg_catalog_column edb_policy_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_synonym_column[] =
+static struct pg_catalog_column pg_synonym_column[] =
 {
 	/* pg_synonym */
 	{"oid", NULL, 0, 0, true, true, true},
@@ -666,7 +664,7 @@ struct pg_catalog_column pg_synonym_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_depend_column[] =
+static struct pg_catalog_column pg_depend_column[] =
 {
 	/* pg_depend */
 	{"classid", NULL, 0, 0, false, false, true, &check_dependency_class_id_value},
@@ -679,7 +677,7 @@ struct pg_catalog_column pg_depend_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_shdepend_column[] =
+static struct pg_catalog_column pg_shdepend_column[] =
 {
 	/* pg_shdepend */
 	{"dbid", NULL, 0, 0, false, false, true, &check_database_optional_oid},
@@ -692,7 +690,7 @@ struct pg_catalog_column pg_shdepend_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_description_column[] =
+static struct pg_catalog_column pg_description_column[] =
 {
 	/* pg_description */
 	{"classoid", NULL, 0, 0, false, false, true, &check_dependency_class_id_value},
@@ -701,7 +699,7 @@ struct pg_catalog_column pg_description_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_shdescription_column[] =
+static struct pg_catalog_column pg_shdescription_column[] =
 {
 	/* pg_shdescription */
 	{"classoid", NULL, 0, 0, false, false, true, &check_dependency_class_id_value},
@@ -709,7 +707,7 @@ struct pg_catalog_column pg_shdescription_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_seclabel_column[] =
+static struct pg_catalog_column pg_seclabel_column[] =
 {
 	/* pg_seclabel */
 	{"classoid", NULL, 90100, 0, false, false, true, &check_dependency_class_id_value},
@@ -719,7 +717,7 @@ struct pg_catalog_column pg_seclabel_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_shseclabel_column[] =
+static struct pg_catalog_column pg_shseclabel_column[] =
 {
 	/* pg_shseclabel */
 	{"classoid", NULL, 90200, 0, false, false, true, &check_dependency_class_id_value},
@@ -728,7 +726,7 @@ struct pg_catalog_column pg_shseclabel_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_auth_members_column[] =
+static struct pg_catalog_column pg_auth_members_column[] =
 {
 	{"roleid", NULL, 0, 0, false, false, true, &check_authid_oid},
 	{"member", NULL, 0, 0, false, false, true, &check_authid_oid},
@@ -736,7 +734,7 @@ struct pg_catalog_column pg_auth_members_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_policy_column[] =
+static struct pg_catalog_column pg_policy_column[] =
 {
 	{"oid", NULL, 90500, 0, false, true, true},
 	{"polname", NULL, 90500, 0, false, false, false},
@@ -746,14 +744,14 @@ struct pg_catalog_column pg_policy_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_profile_column [] =
+static struct pg_catalog_column edb_profile_column [] =
 {
 	{"oid", NULL, 90500, 0, true, true, true},
 	{"prfname", NULL, 90500, 0, true, false, true},
 	{NULL}
 };
 
-struct pg_catalog_column edb_queue_table_column[] =
+static struct pg_catalog_column edb_queue_table_column[] =
 {
 	{"oid", NULL, 90600, 0, true, true, true},
 	{"qtname", NULL, 90600, 0, true, false, true},
@@ -763,7 +761,7 @@ struct pg_catalog_column edb_queue_table_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_queue_column [] =
+static struct pg_catalog_column edb_queue_column [] =
 {
 	{"oid", NULL, 90600, 0, true, true, true},
 	{"aqname", NULL, 90600, 0, true, false, true},
@@ -771,7 +769,7 @@ struct pg_catalog_column edb_queue_column [] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_password_history_column[] =
+static struct pg_catalog_column edb_password_history_column[] =
 {
 	/* edb_password_history */
 	{"passhistroleid", NULL, 90500, 0, true, true, true, &check_authid_oid},
@@ -780,7 +778,7 @@ struct pg_catalog_column edb_password_history_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_queue_callback_column[] =
+static struct pg_catalog_column edb_queue_callback_column[] =
 {
 	/* edb_queue_callback */
 	{"oid", NULL, 90600, 0, true, true, true},
@@ -789,7 +787,7 @@ struct pg_catalog_column edb_queue_callback_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_resource_group_column[] =
+static struct pg_catalog_column edb_resource_group_column[] =
 {
 	/* edb_resource_group */
 	{"oid", NULL, 90400, 0, true, true, true},
@@ -797,7 +795,7 @@ struct pg_catalog_column edb_resource_group_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_init_privs_column[] =
+static struct pg_catalog_column pg_init_privs_column[] =
 {
 	/* pg_init_privs */
 	{"objoid", NULL, 90600, 0, false, true, true},
@@ -806,7 +804,7 @@ struct pg_catalog_column pg_init_privs_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_partitioned_table_column[] =
+static struct pg_catalog_column pg_partitioned_table_column[] =
 {
 	/* pg_partitioned_table */
 	{"partrelid", NULL, 100000, 0, false, true, true, &check_class_oid},
@@ -816,14 +814,14 @@ struct pg_catalog_column pg_partitioned_table_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_pltemplate_column[] =
+static struct pg_catalog_column pg_pltemplate_column[] =
 {
 	/* pg_pltemplate */
 	{"tmplname", NULL, 0, 0, false, true, true},
 	{NULL}
 };
 
-struct pg_catalog_column pg_publication_column[] =
+static struct pg_catalog_column pg_publication_column[] =
 {
 	/* pg_publication */
 	{"oid", NULL, 100000, 0, false, true, true},
@@ -831,7 +829,7 @@ struct pg_catalog_column pg_publication_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_publication_rel_column[] =
+static struct pg_catalog_column pg_publication_rel_column[] =
 {
 	/* pg_publication_rel */
 	{"oid", NULL, 100000, 0, false, true, true},
@@ -840,14 +838,14 @@ struct pg_catalog_column pg_publication_rel_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_replication_origin_column[] =
+static struct pg_catalog_column pg_replication_origin_column[] =
 {
 	/* pg_replication_origin */
 	{"roident", NULL, 90500, 0, false, true, true},
 	{NULL}
 };
 
-struct pg_catalog_column pg_sequence_column[] =
+static struct pg_catalog_column pg_sequence_column[] =
 {
 	/* pg_sequence */
 	{"seqrelid", NULL, 100000, 0, false, true, true, &check_class_oid},
@@ -855,7 +853,7 @@ struct pg_catalog_column pg_sequence_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_statistic_ext_column[] =
+static struct pg_catalog_column pg_statistic_ext_column[] =
 {
 	/* pg_statistic_ext */
 	{"oid", NULL, 100000, 0, false, true, true},
@@ -865,14 +863,14 @@ struct pg_catalog_column pg_statistic_ext_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_statistic_ext_data_column[] =
+static struct pg_catalog_column pg_statistic_ext_data_column[] =
 {
 	/* pg_statistic_ext_data */
 	{"stxoid", NULL, 120000, 0, false, true, true, &check_statistic_ext_oid},
 	{NULL}
 };
 
-struct pg_catalog_column pg_subscription_column[] =
+static struct pg_catalog_column pg_subscription_column[] =
 {
 	/* pg_subscription */
 	{"oid", NULL, 100000, 0, false, true, true},
@@ -881,7 +879,7 @@ struct pg_catalog_column pg_subscription_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_subscription_rel_column[] =
+static struct pg_catalog_column pg_subscription_rel_column[] =
 {
 	/* pg_subscription_rel */
 	{"srsubid", NULL, 100000, 0, false, true, true, &check_subscription_oid},
@@ -889,7 +887,7 @@ struct pg_catalog_column pg_subscription_rel_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column pg_transform_column[] =
+static struct pg_catalog_column pg_transform_column[] =
 {
 	/* pg_transform */
 	{"oid", NULL, 90500, 0, false, true, true},
@@ -900,7 +898,7 @@ struct pg_catalog_column pg_transform_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_redaction_column[] =
+static struct pg_catalog_column edb_redaction_column[] =
 {
 	/* edb_redaction_column */
 	{"oid", NULL, 110000, 0, true, true, true},
@@ -909,7 +907,7 @@ struct pg_catalog_column edb_redaction_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_redaction_policy_column[] =
+static struct pg_catalog_column edb_redaction_policy_column[] =
 {
 	/* edb_redaction_policy */
 	{"oid", NULL, 110000, 0, true, true, true},
@@ -917,7 +915,7 @@ struct pg_catalog_column edb_redaction_policy_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_last_ddl_time_column[] =
+static struct pg_catalog_column edb_last_ddl_time_column[] =
 {
 	/* edb_last_ddl_time */
 	{"classid", NULL, 140000, 0, true, false, true, &check_dependency_class_id_value},
@@ -925,7 +923,7 @@ struct pg_catalog_column edb_last_ddl_time_column[] =
 	{NULL}
 };
 
-struct pg_catalog_column edb_last_ddl_time_shared_column[] =
+static struct pg_catalog_column edb_last_ddl_time_shared_column[] =
 {
 	/* edb_last_ddl_time_shared */
 	{"classid", NULL, 140000, 0, true, false, true, &check_dependency_class_id_value},

@@ -40,11 +40,11 @@ static char *pghost = "";
 static char *pgport = "";
 static char *login = NULL;
 static char *dbName;
-const char *progname;
+static const char *progname;
 int			remote_version;
 bool		remote_is_edb;
 char	   *database_oid;
-bool		select_from_relations = false;
+static bool	select_from_relations = false;
 
 #define MINIMUM_SUPPORTED_VERSION				80400
 
@@ -690,7 +690,6 @@ perform_checks(PGconn *conn)
 	for (;;)
 	{
 		pg_catalog_table *best = NULL;
-		pg_catalog_table *tab;
 		int			remaining = 0;
 
 		/*
