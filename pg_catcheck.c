@@ -823,7 +823,14 @@ load_table(PGconn *conn, pg_catalog_table *tab)
 	pgcc_log(PGCC_DEBUG, "executing query: %s\n", query->data);
 
 #if PG_VERSION_NUM >= 90200
-	if (tab->num_needed_by == 0)
+	/*
+	 * If this table is not needed by any other table, then we won't need to
+	 * refer back any given row after it's processed, so we can load them one
+	 * at a time to reduce memory consumption. However, we build a special
+	 * hash table over the contents of pg_shdepend (duplicate_owner_ht) and
+	 * therefore cannot use row-at-at-time mode for that table.
+	 */
+	if (tab->num_needed_by == 0 && strcmp(tab->table_name, "pg_shdepend") != 0)
 	{
 		load_check_by_singlerow(conn, tab, query);
 		need_load = false;
